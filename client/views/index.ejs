@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/chat.css">
+    <script src="js/client.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+</head>
+<body>
+    <% if (user.admin) { %>
+        <div class='admin-menu' id='admin-menu'>
+            <button id='admin'>Сделать админом/Забрать админку</button>
+            <button id='ban'>Забанить/разбанить</button>
+            <button id='mute'>Замутить/размутить</button>
+        </div>
+    <% } %>
+    <div class='main'>
+        <div class='chat'>
+            <div class='communion'>
+                <div class='menu'>
+                    <%= user.nickname %>
+                    <a href='/logout'>Выйти</a>
+                </div>
+                <div class='messages' id='messages'>
+                    <% if (messages.length && !user.ban) { %>
+                        <% for (let i in messages) { %>
+                            <% if (messages[i].user == user.nickname && messages[i].kind == user.kind) { %>
+                                <div class="message right">
+                            <% } else {%>
+                                <div class="message">
+                            <% } %>
+                                    <div class="title">
+                                    <% if (i > 0) { %>
+                                        <% if (messages[i-1].user != messages[i].user && messages[i-1].kind != messages[i].kind) { %>
+                                            <% if (messages[i].kind == 'github') { %>
+                                                <div class="kind"><img src="img/github.svg"></div>
+                                            <% } %>
+                                            <div class="sender" style="color: <%- messages[i].color %>"><%= messages[i].user %></div>
+                                            <div class="date"><%= messages[i].date %></div>
+                                        <% } %>
+                                    <% } else { %>
+                                        <% if (messages[i].kind == 'github') { %>
+                                            <div class="kind"><img src="img/github.svg"></div>
+                                        <% } %>
+                                        <div class="sender" style="color: <%- messages[i].color %>"><%= messages[i].user %></div>
+                                        <div class="date"><%= messages[i].date %></div>
+                                    <% } %>
+                                </div>
+                                <div class="text" style="color: <%- messages[i].color %>"><%= messages[i].text %></div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class='fields'>
+                    <% if (!user.mute) { %>
+                        <textarea id="field" class='input-message'></textarea>
+                        <div id='send' class='send-button'>отправить</div>
+                    <% } else { %>
+                        <div class='send-button mute'>Вы не можете отправлять сообщения</div>
+                    <% } %>
+                </div>
+            </div>
+            <div id='users' class='users'>
+                    
+            </div>
+        </div>
+    </div>
+    <script>
+        initWebSocket('<%- user.token %>')
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form</title>
+</head>
+<body>
+    <div class='main'>
+        <div class="block">
+            <div class='title'>Войти в чат</div>
+            <div class='msg'>Введите данные для входа</div>
+            <% if (errors != null) { %>
+                <% for (let error of errors) { %>
+                    <div class='msg error'><%= error %></div>
+                <% } %>
+            <% } %>
+            <form method='POST'>
+                <input class='field' type='text' name='nickname' placeholder="Ваш ник">
+                <input class='field' type="password" name="password" placeholder="Ваш пароль">
+                <input class='button' type='submit' value='Войти в чат'>
+            </form>
+            <a class='github' href='login/github/'>Войти с помощью GitHub</a>
+        </div>
+    </div>
+</body>
+</html>
